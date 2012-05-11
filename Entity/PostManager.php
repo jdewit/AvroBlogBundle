@@ -104,9 +104,9 @@ class PostManager
             }
         }
         //clean content
-        $purifier = new HTMLPurifier();
-        $post->setContent($purifier->purify($post->getContent()));
-        $post->setAbstract($purifier->purify($post->getAbstract())); 
+//        $purifier = new HTMLPurifier();
+//        $post->setContent($purifier->purify($post->getContent()));
+//        $post->setAbstract($purifier->purify($post->getAbstract())); 
         $this->em->persist($post);
         if ($andFlush) {
             $this->em->flush();
