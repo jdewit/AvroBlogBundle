@@ -1,31 +1,13 @@
-avro_blog_Admin:
+avro_blog_admin:
     resource: "@AvroBlogBundle/Controller/AdminController.php"
     type:     annotation 
  
-avro_blog_Post:
+avro_blog_post:
     resource: "@AvroBlogBundle/Controller/PostController.php"
     type:     annotation 
- 
-fos_comment_api:
-    type: rest
-    resource: "@FOSCommentBundle/Resources/config/routing.yml"
-    prefix: /api
 
-fos_user_security:
-    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+avro_blog_blog:
+    resource: "@AvroBlogBundle/Controller/BlogController.php"
+    type:     annotation 
 
-fos_user_profile:
-    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
-    prefix: /profile
 
-fos_user_register:
-    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
-    prefix: /register
-
-fos_user_resetting:
-    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
-    prefix: /resetting
-
-fos_user_change_password:
-    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
-    prefix: /profile

@@ -89,9 +89,9 @@ class Post
     protected $tags;
 
     /**
-     * @var \Avro\UserBundle\Entity\User
+     * @var \Avro\BlogBundle\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="Avro\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Avro\BlogBundle\Entity\User")
      */
     protected $createdBy;
 
@@ -367,7 +367,7 @@ class Post
     /**
      * Get createdBy
      * 
-     * @return Avro\UserBundle\Entity\User 
+     * @return Avro\BlogBundle\Entity\User 
      */
     public function getCreatedBy()
     {
@@ -379,7 +379,7 @@ class Post
      *
      * @param manyToOne $createdBy
      */
-    public function setCreatedBy(\Avro\UserBundle\Entity\User $createdBy)
+    public function setCreatedBy(\Avro\BlogBundle\Entity\User $createdBy)
     {
         $this->createdBy = $createdBy;
     }     
