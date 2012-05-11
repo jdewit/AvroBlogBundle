@@ -1,0 +1,40 @@
+{% extends 'AvroBlogBundle::layout.html.twig' %}
+{% block content %}
+    <h1 class="headline">Posts</h1>
+    <div class="content">
+        <div class="submenu1 span-4">
+                {{ knp_menu_render('blog_submenu') }}
+        </div>
+        <div class="span-20 border-left">
+            <div class="content">  
+                <div class="border-bottom">
+                    <h1 >{{ post.title }}</h1>
+                <div>
+                <span class="calendar icon">{{ post.publicationDateStart|date('M d, Y') }}</span>
+                <span>By: <a href="">{{ post.createdBy }}</a></span>
+                <span class="float_right" >
+                    {% if app.user == post.createdBy %}
+                    <a class="icon edit" href="{{ path('avro_blog_post_edit', { 'id': post.id }) }}">edit</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <div class="content ui-helper-clearfix">
+            {{ post.content|raw|nl2br }}
+        </div>
+        <div>
+            <p>Tags: {% for tag in post.tags %}< href="{{ path('avro_blog_post_list_tag', { 'tag': tag.id }) }}">{{ tag.name }}</a>{% endfor %}</p>
+        </div>
+    <div>
+    <br />
+{% include 'AvroCommentBundle::like.html.twig' %}
+</div>
+                <div id="commentsContainer" class="span-16">
+                    {% render "FOSCommentBundle:Thread:show" with {"id": "blog_"~post.id } %}       
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

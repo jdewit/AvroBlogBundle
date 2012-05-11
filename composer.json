@@ -1,0 +1,21 @@
+{
+    "name": "avro/blog-bundle",
+    "type": "symfony-bundle",
+    "description": "Another Symfony2 Blog Bundle",
+    "keywords": ["blog"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Joris de Wit",
+            "email": "joris.w.dewit@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/framework-bundle": "2.1.*"
+    },
+    "autoload": {
+        "psr-0": { "Avro\\BlogBundle": "" }
+    },
+    "target-dir": "Avro/BlogBundle"
+}

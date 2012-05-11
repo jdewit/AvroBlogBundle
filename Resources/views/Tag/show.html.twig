@@ -1,0 +1,12 @@
+{% extends 'AvroBlogBundle::layout.html.twig' %}
+{% block content %}
+    <div class="header ui-state-active">
+        <h1>Tag</h1>
+    </div>
+    <div class="content">  
+        <div> Name: {{ tag.name }}</div>
+        <div> Enabled: {{ tag.enabled }}</div>
+        <div> Slug: {{ tag.slug }}</div>
+    </div>            
+{% endblock %}
+

@@ -1,0 +1,15 @@
+{% extends 'AvroBlogBundle::layout.html.twig' %}
+{% block content %}
+    <h1 class="headline">{{ filter }} Posts</h1>
+    <div class="content">
+        <div class="submenu1 span-4">
+                {{ knp_menu_render('blog_submenu') }}
+        </div>
+        <div class="span-20 border-left">
+            <div class="content">
+                {% include 'AvroBlogBundle:Post:table.html.twig' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+        

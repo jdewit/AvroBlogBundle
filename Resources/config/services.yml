@@ -1,0 +1,36 @@
+services:
+  #post      
+    avro_blog.post_manager:
+        class: Avro\BlogBundle\Entity\PostManager
+        arguments: ["@doctrine.orm.entity_manager", Avro\BlogBundle\Entity\Post, "@security.context", "@fos_comment.manager.thread.default"]
+        
+    avro_blog.post.form.type:
+        class: Avro\BlogBundle\Form\Type\PostFormType
+        tags: 
+            - { name: form.type, alias: avro_blog_post }
+        arguments: ["@security.context"]
+       
+    avro_blog.post.form:
+        factory_method: createNamed 
+        factory_service: form.factory
+        class: Symfony\Component\Form\Form
+        arguments: ["@avro_blog.post.form.type", avro_blog_post]
+        
+    avro_blog.post.form.handler:
+        class: Avro\BlogBundle\Form\Handler\PostFormHandler
+        scope: request
+        arguments: ["@avro_blog.post.form", "@request", "@avro_blog.post_manager"]
+
+    avro_blog.menu_builder:
+        class: Avro\BlogBundle\Menu\MenuBuilder
+        arguments: ["@knp_menu.factory", "@security.context"]
+
+    avro_blog.menu.main:
+        class: Knp\Menu\MenuItem # the service definition requires setting the class
+        factory_service: avro_blog.menu_builder
+        factory_method: createSubMenu
+        arguments: ["@request"]
+        scope: request # needed as we have the request as a dependency here
+        tags:
+            - { name: knp_menu.menu, alias: blog_submenu } # The alias is what is used to retrieve the menu
+            

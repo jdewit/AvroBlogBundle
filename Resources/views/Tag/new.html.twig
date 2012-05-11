@@ -1,0 +1,15 @@
+{% extends 'AvroBlogBundle::layout.html.twig' %}
+{% block content %}
+    <div class="header ui-state-active">
+        <h1>New Tag</h1>
+    </div>
+    <div class="content">  
+        <form method="post" action="{{ path('avro_blog_tag_new') }}" {{ form_enctype(form) }}>  
+            {% include 'AvroBlogBundle:Tag:form.html.twig' %}
+            <div>
+                <input type="submit" class="button" title="Create a new tag" value="Create Tag"/>
+            </div>
+        </form>
+    </div>            
+{% endblock %}
+

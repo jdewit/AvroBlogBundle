@@ -1,0 +1,16 @@
+{% extends 'AvroBlogBundle::layout.html.twig' %}
+{% block content %}
+    <h1 class="headline">Edit Post</h1>
+    <div class="content">
+    <form method="post" action="{{ path('avro_blog_post_edit', { 'id': post.id }) }}" {{ form_enctype(form) }}>  
+        {% include 'AvroBlogBundle:Post:form.html.twig' %}
+        <div>
+            <input type="submit" class="button" title="Update the post" value="Update Post"/>
+        </div>
+    </form>
+    </div>
+{% endblock %}
+{% block extraJavascripts %}
+    {{ tinymce_init() }}
+{% endblock %}
+

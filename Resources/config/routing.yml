@@ -1,0 +1,8 @@
+avro_blog_Admin:
+    resource: "@AvroBlogBundle/Controller/AdminController.php"
+    type:     annotation 
+ 
+avro_blog_Post:
+    resource: "@AvroBlogBundle/Controller/PostController.php"
+    type:     annotation 
+ 
