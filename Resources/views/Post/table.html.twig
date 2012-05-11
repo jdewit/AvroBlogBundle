@@ -1,9 +1,8 @@
-<table id="tableSorter" class="box">
-    <thead class="border-bottom">
+<table>
+    <thead>
         <tr>
             <th class="sort">Title</th>
-            <th class="sort center_align">Author</th>
-            <th class="sort center_align">Uploaded</th>
+            <th class="sort center_align">Upload Date</th>
             <th class="sort center_align">Views</th>
         </tr>
     </thead>
@@ -11,7 +10,6 @@
     {% for post in posts %}
         <tr>
             <td class="ui-corner-all"><a title="{{ post.abstract|raw }}" href="{{ path('avro_blog_post_show', {'id': post.id }) }}">{{ post.title }}<br /></a></td>
-            <td class="center_align"><a href="{{ path('Avro_video_video_list', { 'id': 1 }) }}">{{ post.createdBy.fullName }}</a></td>
             <td class="center_align">{{ post.publicationDateStart|date('M d, y') }}</td>
             <td class="center_align">{{ post.views }}</td>
         </tr>

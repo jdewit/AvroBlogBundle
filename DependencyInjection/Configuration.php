@@ -34,7 +34,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                     ->defaultValue('avro')
                 ->end()
-            ->end()
+            ->end();
 
         return $treeBuilder;
     }

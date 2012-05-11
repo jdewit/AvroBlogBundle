@@ -51,7 +51,7 @@ class TagController extends ContainerAware
 
         $process = $formHandler->process();
         if ($process) {
-            $this->container->get('session')->setFlash('notice', 'Tag created.');
+            $this->container->get('session')->getFlashBag()->set('success', 'Tag created.');
             $tag = $form->getData('tag');
 
             return new RedirectResponse($this->container->get('router')->generate('avro_blog_tag_edit', array('id' => $tag->getId())), 301);
@@ -78,7 +78,7 @@ class TagController extends ContainerAware
 
         $process = $formHandler->process($tag);
         if ($process) {
-            $this->container->get('session')->setFlash('notice', 'Tag updated.');
+            $this->container->get('session')->getFlashBag()->set('success', 'Tag updated.');
 
             return new RedirectResponse($this->container->get('router')->generate('avro_blog_tag_edit', array('id' => $id)));
         }
@@ -99,8 +99,8 @@ class TagController extends ContainerAware
     {
         $tag = $this->get('avro_blog.tag_manager')->findTag($id);
         $this->container->get('avro_blog.Tag_manager')->deleteTag($Tag);
-        $this->container->get('session')->setFlash('notice', 'Tag deleted.');
-
+        $this->container->get('session')->getFlashBag()->set('success', 'Tag deleted.');
+        
         return new RedirectResponse($this->container->get('router')->generate('avro_blog_tag_list'));     
     }
        

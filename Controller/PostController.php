@@ -54,7 +54,7 @@ class PostController extends ContainerAware
 
         $process = $formHandler->process();
         if ($process) {
-            $this->container->get('session')->setFlash('notice', 'Post created.');
+            $this->container->get('session')->getFlashBag()->set('success', 'Post created.');
             $post = $form->getData('post');
 
             return new RedirectResponse($this->container->get('router')->generate('avro_blog_post_show', array('id' => $post->getId())), 301);
@@ -78,7 +78,7 @@ class PostController extends ContainerAware
         $post = $this->container->get('avro_blog.post_manager')->findPost($id);
 
         if (!$post) {
-            $this->container->get('session')->setFlash('error', 'Post not found.');
+            $this->container->get('session')->getFlashBag()->set('error', 'Post not found.');
             
             return new RedirectResponse($this->container->get('router')->generate('avro_blog_post_list'));
         }
@@ -88,7 +88,7 @@ class PostController extends ContainerAware
 
         $process = $formHandler->process($post);
         if ($process) {
-            $this->container->get('session')->setFlash('notice', 'Post Updated.');
+            $this->container->get('session')->getFlashBag()->set('success', 'Post updated.');
 
             return new RedirectResponse($this->container->get('router')->generate('avro_blog_post_show', array('id' => $id)));
         }
@@ -126,8 +126,8 @@ class PostController extends ContainerAware
     public function deleteAction($id)
     {
         $post = $this->container->get('avro_blog.post_manager')->findPost($id);
-        $this->container->get('avro_blog.Post_manager')->deletePost($post);
-        $this->container->get('session')->setFlash('notice', 'Post deleted.');
+        $this->container->get('avro_blog.post_manager')->deletePost($post);
+        $this->container->get('session')->getFlashBag()->set('success', 'Post deleted.');
 
         return new RedirectResponse($this->container->get('router')->generate('avro_blog_post_list'));     
     }
