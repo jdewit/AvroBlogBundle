@@ -25,16 +25,8 @@
         <div>
             <p>Tags: {% for tag in post.tags %}< href="{{ path('avro_blog_post_list_tag', { 'tag': tag.id }) }}">{{ tag.name }}</a>{% endfor %}</p>
         </div>
-    <div>
-    <br />
-{% include 'AvroCommentBundle::like.html.twig' %}
-</div>
-                <div id="commentsContainer" class="span-16">
-                    {% render "FOSCommentBundle:Thread:show" with {"id": "blog_"~post.id } %}       
-                </div>
-
-            </div>
-        </div>
     </div>
+    <br />
+    {% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': 'blog_'~post.id } %}
 {% endblock %}
 

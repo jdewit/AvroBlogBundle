@@ -27,56 +27,56 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable="true")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $title;
 
     /**
      * @var text
      *
-     * @ORM\Column(type="text", nullable="true")
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $abstract;
 
     /**
      * @var text
      *
-     * @ORM\Column(type="text", nullable="true")
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $content;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(type="boolean", nullable="true")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     protected $enabled;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable="true")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $slug;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime", nullable="true")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     protected $publicationDateStart;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=10, nullable="true")
+     * @ORM\Column(type="string", length=10, nullable=true)
      */
     protected $views;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(type="boolean", nullable="true")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     protected $isFeatured;
 
@@ -113,21 +113,21 @@ class Post
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime", nullable="true")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     protected $updatedAt;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(type="boolean", nullable="true")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     protected $isDeleted = false;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime", nullable="true")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     protected $deletedAt;
 

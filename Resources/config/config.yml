@@ -1,4 +1,15 @@
 imports:
     - { resource: '@AvroBlogBundle/Resources/config/services.yml' }
 
+fos_user:
+    db_driver: orm 
+    firewall_name: main
+    user_class: Avro\BlogBundle\Entity\User
+
+fos_comment:
+    db_driver: orm
+    class:
+        model:
+            comment: Avro\BlogBundle\Entity\Comment
+            thread: Avro\BlogBundle\Entity\Thread
 

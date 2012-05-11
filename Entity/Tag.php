@@ -34,14 +34,14 @@ class Tag
     /**
      * @var boolean
      *
-     * @ORM\Column(type="boolean", nullable="true")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     protected $enabled;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable="true")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $slug;
 
@@ -56,7 +56,7 @@ class Tag
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime", nullable="true")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     protected $updatedAt;
 
