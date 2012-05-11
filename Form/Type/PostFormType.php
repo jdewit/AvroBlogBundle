@@ -11,17 +11,19 @@ class PostFormType extends AbstractType
     {
         $builder
             ->add('title', 'text', array(
+                'required' => false,
                 'attr' => array(
                     'title' => 'Enter the title for the post',
-                    'class' => 'veryWide'  
+                    'class' => 'span12'  
                 )
             ))          
          
             ->add('content', 'textarea', array(
+                'required' => false,
                 'attr' => array(
                     'title' => 'Enter the content for the post',
-                    'class' => 'tinymce',
-                    'style' => 'width: 300px;'
+                    'class' => 'span12',
+                    'style' => 'min-height: 20em;'
                 )
             )) 
         ;

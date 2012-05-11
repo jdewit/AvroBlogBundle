@@ -1,0 +1,12 @@
+<ul class="nav nav-list">
+    {% if is_granted('ROLE_USER') %}
+        <li class="nav-header">Admin</li>
+        <li><a href="{{ path('avro_blog_post_new') }}"><i class="sprite-page_add"></i>New Post</a></li>
+    {% endif %}
+
+    <li class="nav-header">Latest Posts</li>
+    {% for post in posts %}
+        <li><a href="#post{{ post.id }}">{{ post.title }}</a></li>
+    {% endfor %}
+</ul>
+

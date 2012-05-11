@@ -115,6 +115,7 @@ class PostController extends ContainerAware
 
         return array(
             'post' => $post,
+            'posts' => $this->container->get('avro_blog.postManager')->findAllPosts()
         );
     }
 
