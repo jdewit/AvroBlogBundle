@@ -1,0 +1,20 @@
+services:
+    avro_blog.post_manager:
+        class: "Avro\BlogBundle\Entity\PostManager"
+        arguments: ["@doctrine.orm.entity_manager", Avro\BlogBundle\Entity\Post, "@security.context"]
+        
+    avro_blog.post.form.type:
+        class: "Avro\BlogBundle\Form\Type\PostFormType"
+        tags:
+            - { name: form.type, alias: avro_blog_post }
+       
+    avro_blog.post.form:
+        factory_method: createNamed
+        factory_service: form.factory
+        class: "Symfony\Component\Form\Form"
+        arguments: [avro_blog_post, "@avro_blog.post.form.type"]
+        
+    avro_blog.post.form.handler:
+        class: "Avro\BlogBundle\Form\Handler\PostFormHandler"
+        scope: request
+        arguments: ["@avro_blog.post.form", "@request", "@avro_blog.post_manager"]

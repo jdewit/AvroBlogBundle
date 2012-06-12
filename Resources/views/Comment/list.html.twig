@@ -1,0 +1,14 @@
+{% extends 'AvroBlogBundle::layout.html.twig' %}
+{% block content %}
+    <div class="page-header">
+        <h1>
+            Comment List
+        
+            <a href="{{ path('avro_blog_comment_new') }}" class="btn btn-primary btn-large pull-right">+ New Comment</a>
+        </h1>
+    </div>
+    <div class="row">
+        {% include 'AvroBlogBundle:Comment:table.html.twig' %}
+    </div>
+{% endblock %}
+

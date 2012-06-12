@@ -6,14 +6,14 @@ use Avro\BlogBundle\Entity\Tag;
 
 /**
  * Avro\BlogBundle\Entity\Tag
- * 
+ *
  * @author Joris de <joris.w.dewit@gmail.com>
- * 
+ *
  * @ORM\Entity
  * @ORM\Table(name="blog_tags")
  * @ORM\HasLifecycleCallbacks
  */
-class Tag 
+class Tag
 {
     /**
      * @var integer
@@ -21,7 +21,7 @@ class Tag
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     */    
+     */
     protected $id;
 
     /**
@@ -45,7 +45,6 @@ class Tag
      */
     protected $slug;
 
-    
     /**
      * @var \DateTime
      *
@@ -60,31 +59,31 @@ class Tag
      */
     protected $updatedAt;
 
-    /** 
-     * @ORM\PrePersist 
+    /**
+     * @ORM\PrePersist
      */
     public function PrePersist()
     {
         $this->createdAt = new \DateTime('now');
     }
 
-    /** 
-     * @ORM\PreUpdate 
+    /**
+     * @ORM\PreUpdate
      */
     public function PreUpdate()
     {
        $this->updatedAt= new \DateTime('now');
     }
 
-    public function __construct() 
-    {            
+    public function __construct()
+    {
     }
 
     /**
      * Get tag id
      *
      * @return integer
-     */   
+     */
     public function getId()
     {
         return $this->id;
@@ -92,14 +91,14 @@ class Tag
 
     /**
      * Get name
-     * 
-     * @return string 
+     *
+     * @return string
      */
     public function getName()
     {
         return $this->name;
     }
-    
+
     /**
      * Set name
      *
@@ -108,18 +107,18 @@ class Tag
     public function setName($name)
     {
         $this->name = $name;
-    }    
-       
+    }
+
     /**
      * Get enabled
-     * 
-     * @return boolean 
+     *
+     * @return boolean
      */
     public function getEnabled()
     {
         return $this->enabled;
     }
-    
+
     /**
      * Set enabled
      *
@@ -128,18 +127,18 @@ class Tag
     public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
-    }    
-       
+    }
+
     /**
      * Get slug
-     * 
-     * @return string 
+     *
+     * @return string
      */
     public function getSlug()
     {
         return $this->slug;
     }
-    
+
     /**
      * Set slug
      *
@@ -148,9 +147,9 @@ class Tag
     public function setSlug($slug)
     {
         $this->slug = $slug;
-    }    
-       
-    
+    }
+
+
     /**
     * Set createdAt
     *
@@ -190,6 +189,6 @@ class Tag
     {
         return $this->updatedAt;
     }
-    
+
 }
 

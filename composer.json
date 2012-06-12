@@ -11,9 +11,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.2",
-        "friendsofsymfony/comment-bundle": "*",
-        "friendsofsymfony/user-bundle": "*"
+        "php": ">=5.3.2"
     },
     "autoload": {
         "psr-0": { "Avro\\BlogBundle": "" }

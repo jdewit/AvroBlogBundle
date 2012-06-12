@@ -4,12 +4,11 @@ namespace Avro\BlogBundle\Entity;
 
 use Avro\BlogBundle\Entity\Post;
 use Avro\HTMLPurifierBundle\Purifier\HTMLPurifier;
-use FOS\CommentBundle\Model\ThreadManagerInterface;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class PostManager 
+class PostManager
 {
     protected $em;
     protected $class;
@@ -37,10 +36,10 @@ class PostManager
 
         return $post;
     }
-       
+
     /**
      * {@inheritDoc}
-     */  
+     */
     public function deletePost(Post $post)
     {
         $this->em->remove($post);
@@ -61,7 +60,7 @@ class PostManager
     public function findPost($id)
     {
         $post = $this->repository->find($id);
-        
+
         return $post;
     }
 
@@ -71,7 +70,7 @@ class PostManager
     public function findPostBy(array $criteria)
     {
         $post = $this->repository->findOneBy($criteria);
-        
+
         return $post;
     }
 
@@ -82,7 +81,7 @@ class PostManager
     {
         return $this->repository->findBy($criteria);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -90,7 +89,7 @@ class PostManager
     {
         return $this->repository->findAll();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -106,7 +105,7 @@ class PostManager
         //clean content
 //        $purifier = new HTMLPurifier();
 //        $post->setContent($purifier->purify($post->getContent()));
-//        $post->setAbstract($purifier->purify($post->getAbstract())); 
+//        $post->setAbstract($purifier->purify($post->getAbstract()));
         $this->em->persist($post);
         if ($andFlush) {
             $this->em->flush();
@@ -116,7 +115,7 @@ class PostManager
     /*
      * {@inheritDoc}
      */
-    public function incrementViews(Post $post) 
+    public function incrementViews(Post $post)
     {
         $views = $post->getViews();
         $post->setViews($views + 1);

@@ -1,4 +1,3 @@
 imports:
-    - { resource: '@AvroBlogBundle/Resources/config/services.yml' }
-
-
+    - { resource: '@AvroBlogBundle/Resources/config/services/post.yml' }
+    - { resource: '@AvroBlogBundle/Resources/config/services/comment.yml' }

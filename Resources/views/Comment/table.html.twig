@@ -1,0 +1,41 @@
+<form method="post" action="{{ path('avro_blog_comment_batch') }}">  
+    <table class="table-condensed table-bordered table-striped">
+        <thead>
+            <tr>
+                <th title="Select All"><input id="checkAll" type="checkbox"/></th>
+                <th>Post</th>
+                <th>Body</th>
+                <th>Name</th>
+                <th>Isapproved</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for comment in comments %}
+                <tr>
+                    <td><input class="selector" type="checkbox" name="selected[]" value="{{ comment.id }}"/></td>
+                    <td class="showSpriteOnHover"><a title="Edit this comment" href="{{ path('avro_blog_comment_edit', {'id': comment.id }) }}"><i class="sprite-pencil"></i>{{ comment.id }}</a></td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="0">0 comments Found</td>
+                </tr>
+             {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="100%">
+                    {% if comments %}
+                        <i class="sprite-arrow-left-up"></i>
+                       {% if filter != 'Deleted' %}
+                            <button type="submit" name="form_action" value="Delete" class="btn btn-danger confirm" title="Are you sure you want to delete these comments?">Delete</button>
+                        {% else %}
+                            <button type="submit" name="form_action" value="Restore" class="btn btn-info confirm" title="Are you sure you want to restore these comments?">Restore</button>
+                        {% endif %}
+                    {% else %}
+                        &nbsp;
+                    {% endif %}
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</form>

@@ -6,14 +6,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Avro\BlogBundle\Entity\Post
- * 
+ *
  * @author Joris de <joris.w.dewit@gmail.com>
- * 
+ *
  * @ORM\Entity
  * @ORM\Table(name="blog_posts")
  * @ORM\HasLifecycleCallbacks
  */
-class Post 
+class Post
 {
     /**
      * @var integer
@@ -21,7 +21,7 @@ class Post
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     */    
+     */
     protected $id;
 
     /**
@@ -80,7 +80,7 @@ class Post
      */
     protected $isFeatured;
 
-    /** 
+    /**
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="Avro\BlogBundle\Entity\Tag", inversedBy="posts")
@@ -89,20 +89,12 @@ class Post
     protected $tags;
 
     /**
-     * @var \Avro\BlogBundle\Entity\User
-     *
-     * @ORM\ManyToOne(targetEntity="Avro\BlogBundle\Entity\User")
-     */
-    protected $createdBy;
-
-    /**
      * @var string
      *
      * @ORM\ManyToOne(targetEntity="Avro\AssetBundle\Entity\Image", cascade={"all"})
      */
     protected $image;
 
-    
     /**
      * @var \DateTime
      *
@@ -131,33 +123,33 @@ class Post
      */
     protected $deletedAt;
 
-    /** 
-     * @ORM\PrePersist 
+    /**
+     * @ORM\PrePersist
      */
     public function PrePersist()
     {
         $this->createdAt = new \DateTime('now');
     }
 
-    /** 
-     * @ORM\PreUpdate 
+    /**
+     * @ORM\PreUpdate
      */
     public function PreUpdate()
     {
        $this->updatedAt= new \DateTime('now');
     }
 
-    public function __construct() 
-    {                                     
+    public function __construct()
+    {
         $this->tags = new ArrayCollection();
-            
+
     }
 
     /**
      * Get post id
      *
      * @return integer
-     */   
+     */
     public function getId()
     {
         return $this->id;
@@ -165,14 +157,14 @@ class Post
 
     /**
      * Get title
-     * 
-     * @return string 
+     *
+     * @return string
      */
     public function getTitle()
     {
         return $this->title;
     }
-    
+
     /**
      * Set title
      *
@@ -181,18 +173,18 @@ class Post
     public function setTitle($title)
     {
         $this->title = $title;
-    }    
-       
+    }
+
     /**
      * Get abstract
-     * 
-     * @return text 
+     *
+     * @return text
      */
     public function getAbstract()
     {
         return $this->abstract;
     }
-    
+
     /**
      * Set abstract
      *
@@ -201,18 +193,18 @@ class Post
     public function setAbstract($abstract)
     {
         $this->abstract = $abstract;
-    }    
-       
+    }
+
     /**
      * Get content
-     * 
-     * @return text 
+     *
+     * @return text
      */
     public function getContent()
     {
         return $this->content;
     }
-    
+
     /**
      * Set content
      *
@@ -221,18 +213,18 @@ class Post
     public function setContent($content)
     {
         $this->content = $content;
-    }    
-       
+    }
+
     /**
      * Get enabled
-     * 
-     * @return boolean 
+     *
+     * @return boolean
      */
     public function getEnabled()
     {
         return $this->enabled;
     }
-    
+
     /**
      * Set enabled
      *
@@ -241,18 +233,18 @@ class Post
     public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
-    }    
-       
+    }
+
     /**
      * Get slug
-     * 
-     * @return string 
+     *
+     * @return string
      */
     public function getSlug()
     {
         return $this->slug;
     }
-    
+
     /**
      * Set slug
      *
@@ -261,18 +253,18 @@ class Post
     public function setSlug($slug)
     {
         $this->slug = $slug;
-    }    
-       
+    }
+
     /**
      * Get publicationDateStart
-     * 
-     * @return datetime 
+     *
+     * @return datetime
      */
     public function getPublicationDateStart()
     {
         return $this->publicationDateStart;
     }
-    
+
     /**
      * Set publicationDateStart
      *
@@ -281,18 +273,18 @@ class Post
     public function setPublicationDateStart($publicationDateStart)
     {
         $this->publicationDateStart = $publicationDateStart;
-    }    
-       
+    }
+
     /**
      * Get views
-     * 
-     * @return string 
+     *
+     * @return string
      */
     public function getViews()
     {
         return $this->views;
     }
-    
+
     /**
      * Set views
      *
@@ -301,18 +293,18 @@ class Post
     public function setViews($views)
     {
         $this->views = $views;
-    }    
-       
+    }
+
     /**
      * Get isFeatured
-     * 
-     * @return boolean 
+     *
+     * @return boolean
      */
     public function getIsFeatured()
     {
         return $this->isFeatured;
     }
-    
+
     /**
      * Set isFeatured
      *
@@ -321,12 +313,12 @@ class Post
     public function setIsFeatured($isFeatured)
     {
         $this->isFeatured = $isFeatured;
-    }    
-       
+    }
+
     /**
      * Get tag
-     * 
-     * @return Avro\BlogBundle\Entity\Tag 
+     *
+     * @return Avro\BlogBundle\Entity\Tag
      */
     public function getTags()
     {
@@ -341,59 +333,39 @@ class Post
     public function setTags(\Avro\BlogBundle\Entity\TagInterface $tags)
     {
         $this->tags = $tags;
-    } 
-    
+    }
+
     /**
      * Add tag to the collection of related items
      *
-     * @param \Avro\BlogBundle\Entity\Tag $tag   
+     * @param \Avro\BlogBundle\Entity\Tag $tag
      */
     public function addTag(\Avro\BlogBundle\Entity\TagInterface $tag)
     {
         $this->tags->add($tag);
         $tag->set($this);
-    }  
+    }
 
     /**
      * Remove tag from the collection of related items
      *
-     * @param \Avro\BlogBundle\Entity\Tag $tag 
+     * @param \Avro\BlogBundle\Entity\Tag $tag
      */
     public function removeTag(\Avro\BlogBundle\Entity\TagInterface $tag)
     {
         $this->tags->removeElement($tag);
     }
-       
-    /**
-     * Get createdBy
-     * 
-     * @return Avro\BlogBundle\Entity\User 
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
 
     /**
-     * Set createdBy
-     *
-     * @param manyToOne $createdBy
-     */
-    public function setCreatedBy(\Avro\BlogBundle\Entity\User $createdBy)
-    {
-        $this->createdBy = $createdBy;
-    }     
-       
-    /**
      * Get image
-     * 
-     * @return string 
+     *
+     * @return string
      */
     public function getImage()
     {
         return $this->image;
     }
-    
+
     /**
      * Set image
      *
@@ -402,9 +374,9 @@ class Post
     public function setImage($image)
     {
         $this->image = $image;
-    }    
-       
-    
+    }
+
+
     /**
     * Set createdAt
     *
@@ -447,14 +419,14 @@ class Post
 
     /**
      * Get isDeleted
-     * 
-     * @return boolean 
+     *
+     * @return boolean
      */
     public function getIsDeleted()
     {
         return $this->isDeleted;
     }
-    
+
     /**
      * Set isDeleted
      *
@@ -463,7 +435,7 @@ class Post
     public function setIsDeleted($isDeleted)
     {
         $this->isDeleted = $isDeleted;
-    }  
+    }
 
     /**
      * Set deletedAt
@@ -491,16 +463,6 @@ class Post
     public function __toString()
     {
         return $this->title;
-        return $this->abstract;
-        return $this->content;
-        return $this->enabled;
-        return $this->slug;
-        return $this->publicationDateStart;
-        return $this->views;
-        return $this->isFeatured;
-        return $this->tag;
-        return $this->createdBy;
-        return $this->image;
-    } 
+    }
 }
 

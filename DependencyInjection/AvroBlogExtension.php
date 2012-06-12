@@ -8,16 +8,16 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\Alias;
 
-class AvroBlogExtension extends Extension 
+class AvroBlogExtension extends Extension
 {
-    public function load(array $configs, ContainerBuilder $container) 
+    public function load(array $configs, ContainerBuilder $container)
     {
         $processor = new Processor();
         $configuration = new Configuration();
 
         $config = $processor->processConfiguration($configuration, $configs);
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
+        $loader->load('config.yml');
 
         $container->setParameter('avro_blog.style', $config['style']);
     }
