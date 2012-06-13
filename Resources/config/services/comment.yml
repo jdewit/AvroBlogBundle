@@ -1,20 +1,20 @@
 services:
     avro_blog.comment_manager:
-        class: "Avro\BlogBundle\Entity\CommentManager"
+        class: Avro\BlogBundle\Entity\CommentManager
         arguments: ["@doctrine.orm.entity_manager", Avro\BlogBundle\Entity\Comment, "@security.context"]
         
     avro_blog.comment.form.type:
-        class: "Avro\BlogBundle\Form\Type\CommentFormType"
+        class: Avro\BlogBundle\Form\Type\CommentFormType
         tags:
             - { name: form.type, alias: avro_blog_comment }
        
     avro_blog.comment.form:
         factory_method: createNamed
         factory_service: form.factory
-        class: "Symfony\Component\Form\Form"
+        class: Symfony\Component\Form\Form
         arguments: [avro_blog_comment, "@avro_blog.comment.form.type"]
         
     avro_blog.comment.form.handler:
-        class: "Avro\BlogBundle\Form\Handler\CommentFormHandler"
+        class: Avro\BlogBundle\Form\Handler\CommentFormHandler
         scope: request
         arguments: ["@avro_blog.comment.form", "@request", "@avro_blog.comment_manager"]
