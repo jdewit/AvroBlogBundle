@@ -1,0 +1,20 @@
+services:
+    avro_blog.tag_manager:
+        class: Avro\BlogBundle\Entity\TagManager
+        arguments: ["@doctrine.orm.entity_manager", Avro\BlogBundle\Entity\Tag, "@security.context"]
+        
+    avro_blog.tag.form.type:
+        class: Avro\BlogBundle\Form\Type\TagFormType
+        tags:
+            - { name: form.type, alias: avro_blog_tag }
+       
+    avro_blog.tag.form:
+        factory_method: createNamed
+        factory_service: form.factory
+        class: Symfony\Component\Form\Form
+        arguments: [avro_blog_tag, "@avro_blog.tag.form.type"]
+        
+    avro_blog.tag.form.handler:
+        class: Avro\BlogBundle\Form\Handler\TagFormHandler
+        scope: request
+        arguments: ["@avro_blog.tag.form", "@request", "@avro_blog.tag_manager"]

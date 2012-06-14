@@ -17,18 +17,37 @@
                     {{ post.content | raw }}
                 </div>
                 <hr />
-                <h2>{{ comments | length }} Comments</h2>
-                <div class="shadows">
+                <div>
+                    <span>Tags: </span>
+                    {% for tag in post.tags %}
+                    <a href="#">{{ tag.name }}</a>
+                    {% endfor %}
+                </div>
+                <hr />
+                <h2>{{ comments | length }} Comment{% if comments | length > 1 %}s{% endif %}</h2>
+                <div class="">
                     {% for comment in comments %}
-                        <div>
+                        <div class="well">
                             {{ comment.body | raw }}
+                            <div>
+                                <br />
+                                By: <a href="#">{{ comment.name }}</a> &nbsp; <span>{{ comment.createdAt | daysAgo }}</span>
+                            </div>
                         </div>
                     {% endfor %}
                 </div>
-                <form action="{{ path('avro_blog_comment_new') }}" method="post">
-                    {{ form_widget(commentForm.body) }}
+                <hr />
+                <form action="{{ path('avro_blog_comment_new', { 'id': post.id }) }}" method="post">
+                    <div>
+                        {{ form_widget(commentForm.name) }}
+                    </div>
+                    <div>
+                        {{ form_widget(commentForm.body) }}
+                    </div>
                     {{ form_widget(commentForm._token) }}
-                    <button type="submit">Add Comment</button>
+                    <div>
+                        <button class="btn btn-primary" type="submit">Add Comment</button>
+                    </div>
                 </form>
             </div>
         </div><!--/span-->

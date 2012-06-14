@@ -3,6 +3,7 @@ namespace Avro\BlogBundle\Form\Handler;
 
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
+use Avro\BlogBundle\Entity\Post;
 use Avro\BlogBundle\Entity\Comment;
 use Avro\BlogBundle\Entity\CommentManager;
 
@@ -20,25 +21,29 @@ class CommentFormHandler
     public function __construct(Form $form, Request $request, CommentManager $commentManager)
     {
         $this->form = $form;
-        $this->request = $request;  
+        $this->request = $request;
         $this->commentManager = $commentManager;
     }
 
     /*
      * Process the form
      *
-     * @param Comment 
+     * @param Comment
      *
      * @return boolean true if successful
      * @return array $errors if unsuccessful
      */
-    public function process(Comment $comment = null)
+    public function process(Comment $comment = null, Post $post = null)
     {
         if (null === $comment) {
             $comment = $this->commentManager->create();
         }
 
         $this->form->setData($comment);
+
+//        if ($post instanceof Post) {
+            $comment->setPost($post);
+//        }
 
         if ('POST' == $this->request->getMethod()) {
             $this->form->bindRequest($this->request);

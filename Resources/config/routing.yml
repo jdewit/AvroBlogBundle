@@ -1,3 +1,7 @@
+avro_tag_comment:
+    resource: "@AvroBlogBundle/Controller/TagController.php"
+    type:     annotation 
+
 avro_blog_comment:
     resource: "@AvroBlogBundle/Controller/CommentController.php"
     type:     annotation 

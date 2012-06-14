@@ -103,7 +103,6 @@ class PostController extends ContainerAware
      * Show one post.
      *
      * @Route("/show/{id}", name="avro_blog_post_show")
-     * @Secure(roles="ROLE_USER")
      * @Template()
      */
     public function showAction($id)
@@ -115,7 +114,7 @@ class PostController extends ContainerAware
 
         return array(
             'post' => $post,
-            'comments' => $this->container->get('avro_blog.comment_manager')->findBy(array('post' => $post)),
+            'comments' => $this->container->get('avro_blog.comment_manager')->findBy(array('post' => $post, 'isApproved' => true)),
             'posts' => $this->container->get('avro_blog.postManager')->findAllPosts(),
             'commentForm' => $this->container->get('avro_blog.comment.form')->createView()
         );

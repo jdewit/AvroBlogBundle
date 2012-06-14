@@ -26,6 +26,10 @@ class PostFormType extends AbstractType
                     'style' => 'min-height: 20em;'
                 )
             ))
+            ->add('tags', 'entity', array(
+                'class' => 'Avro\BlogBundle\Entity\Tag',
+                'multiple' => true,
+            ))
         ;
     }
 

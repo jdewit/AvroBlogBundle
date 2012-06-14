@@ -1,16 +1,2 @@
-<div>        
-    <div>
-        <label for="avro_blog_tag_name"> Name</label>
-        {{ form_widget(form.name) }}    
-    </div>
-    <div>
-        <label for="avro_blog_tag_enabled"> Enabled</label>
-        {{ form_widget(form.enabled) }}    
-    </div>
-    <div>
-        <label for="avro_blog_tag_slug"> Slug</label>
-        {{ form_widget(form.slug) }}    
-    </div>
- 
-    {{ form_rest(form) }}
-</div>
+    {{ form_row(form.name) }}
+    {{ form_widget(form._token) }}

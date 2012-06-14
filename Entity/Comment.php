@@ -128,7 +128,7 @@ class Comment
      *
      * @param manyToOne $post
      */
-    public function setPost(\Avro\BlogBundle\Entity\Post $post = null)
+    public function setPost(\Avro\BlogBundle\Entity\Post $post)
     {
         $this->post = $post;
     }

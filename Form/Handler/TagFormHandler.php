@@ -5,8 +5,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 
 use Avro\BlogBundle\Entity\Tag;
-use Avro\BlogBundle\Entity\TagInterface;
-use Avro\BlogBundle\Entity\Manager\TagManagerInterface;
+use Avro\BlogBundle\Entity\TagManager;
 
 class TagFormHandler
 {
@@ -14,14 +13,14 @@ class TagFormHandler
     protected $tagManager;
     protected $form;
 
-    public function __construct(Form $form, Request $request, TagManagerInterface $tagManager)
+    public function __construct(Form $form, Request $request, TagManager $tagManager)
     {
         $this->form = $form;
         $this->request = $request;
         $this->tagManager = $tagManager;
     }
 
-    public function process(TagInterface $tag = null)
+    public function process(Tag $tag = null)
     {
         if (null === $tag) {
             $tag = $this->tagManager->createTag('');
@@ -42,7 +41,7 @@ class TagFormHandler
         return false;
     }
 
-    protected function onSuccess(TagInterface $tag)
+    protected function onSuccess(Tag $tag)
     {
         $this->tagManager->updateTag($tag);
     }

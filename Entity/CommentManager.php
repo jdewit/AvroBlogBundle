@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  *
  * @author Joris de Wit <joris.w.dewit@gmail.com>
  */
-class CommentManager 
+class CommentManager
 {
     protected $em;
     protected $class;
@@ -35,7 +35,7 @@ class CommentManager
     /*
      * Flush the entity manager
      *
-     * @param boolean $andClear Clears instances of this class from the entity manager 
+     * @param boolean $andClear Clears instances of this class from the entity manager
      */
     public function flush($andClear)
     {
@@ -54,12 +54,12 @@ class CommentManager
     public function create()
     {
         $class = $this->getClass();
-        
+
         $comment = new $class();
 
         return $comment;
     }
-           
+
     /**
      * Updates a Comment
      *
@@ -69,6 +69,10 @@ class CommentManager
      */
     public function update(Comment $comment, $andFlush = true, $andClear = false)
     {
+        //clean content
+        $purifier = new HTMLPurifier();
+        $comment->setBody($purifier->purify($post->getBody()));
+
         $this->em->persist($comment);
 
         if ($andFlush) {
@@ -82,12 +86,12 @@ class CommentManager
      * @param Comment $comment
      * @param boolean $andFlush Flush em if true
      * @param boolean $andClear Clear em if true
-     */  
+     */
     public function softDelete(Comment $comment, $andFlush = true, $andClear = false)
     {
         $comment->setIsDeleted(true);
         $comment->setDeletedAt(new \Datetime('now'));
-       
+
         $this->em->persist($comment);
 
         if ($andFlush) {
@@ -103,12 +107,12 @@ class CommentManager
      * @param Comment $comment
      * @param boolean $andFlush Flush em if true
      * @param boolean $andClear Clear em if true
-     */  
+     */
     public function restore(Comment $comment, $andFlush = true, $andClear = false)
     {
         $comment->setIsDeleted(false);
         $comment->setDeletedAt(null);
-       
+
         $this->em->persist($comment);
 
         if ($andFlush) {
@@ -124,7 +128,7 @@ class CommentManager
      * @param Comment $comment
      * @param boolean $andFlush Flush em if true
      * @param boolean $andClear Clear em if true
-     */  
+     */
     public function delete(Comment $comment, $andFlush = true, $andClear = false)
     {
         $this->em->remove($comment);
@@ -139,7 +143,7 @@ class CommentManager
     /**
      * Find one comment by id
      *
-     * @param string $id 
+     * @param string $id
      * @return Comment
      */
     public function find($id)
@@ -167,7 +171,7 @@ class CommentManager
 
         $result = $qb->getQuery()->getArrayResult();
 
-        return current($result); 
+        return current($result);
     }
 
     /**
@@ -178,7 +182,7 @@ class CommentManager
      */
     public function findOneBy($criteria = array())
     {
-        
+
         return $this->repository->findOneBy($criteria);
     }
 
@@ -209,7 +213,7 @@ class CommentManager
 
     /**
      * Search comments
-     * 
+     *
      * @param array $query Search criteria
      * @return array Comments
      */
@@ -265,7 +269,7 @@ class CommentManager
 
         foreach ($query as $key => $value) {
             if ((!empty($value)) && ($key != '_token')) {
-                if (is_object($value)) { 
+                if (is_object($value)) {
                     $qb->andWhere('comment.'.$key.' = ?'.$index)->setParameter($index, $value->getId());
                 } elseif ($key == 'startDate') {
                     $qb->andWhere('comment.date >= ?'.$index)->setParameter($index, $value);
@@ -284,7 +288,7 @@ class CommentManager
             $results = $qb->getQuery()->getResult();
         }
 
-        return $results; 
+        return $results;
     }
 }
 

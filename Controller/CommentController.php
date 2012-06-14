@@ -54,20 +54,20 @@ class CommentController extends ContainerAware
     /**
      * Create a new  Comment.
      *
-     * @Route("/new", name="avro_blog_comment_new")
+     * @Route("/new/{id}", name="avro_blog_comment_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction($id)
     {
+        $post = $this->container->get('avro_blog.post_manager')->findPost($id);
         $commentForm = $this->container->get('avro_blog.comment.form');
         $formHandler = $this->container->get('avro_blog.comment.form.handler');
 
-        $process = $formHandler->process();
+        $process = $formHandler->process(null, $post);
         if ($process) {
-            $comment = $commentForm->getData('comment');
-            $this->container->get('session')->getFlashBag()->set('success', ' Comment created.');
+            $this->container->get('session')->getFlashBag()->set('success', 'Comment created.');
 
-            return new RedirectResponse($this->container->get('router')->generate('avro_blog_post_show', array('id' => $comment->getPost()->getId())), 301);
+            return new RedirectResponse($this->container->get('router')->generate('avro_blog_post_show', array('id' => $post->getId())), 301);
         }
 
         return new RedirectResponse($this->container->get('router')->generate('avro_blog_blog_index'), 301);

@@ -11,44 +11,35 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * @author Joris de Wit <joris.w.dewit@gmail.com>
  */
 class CommentFormType extends AbstractType
-{ 
+{
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('post', 'entity', array(
-                'empty_value' => 'Select a post...',
-                'label' => 'Post',
-                'required' => false,
-                'class' =>'Avro\BlogBundle\Entity\Post',
-                'attr' => array(
-                    'title' => 'Choose a post',  
-                    'class' => '',
-                )
-            ))  
             ->add('body', 'textarea', array(
                 'label' => 'Body',
-                'required' => false,
+                'required' => true,
                 'attr' => array(
-                    'title' => 'Enter the body',  
-                    'class' => '',
+                    'placeholder' => 'Your comment',
+                    'title' => 'Enter a comment',
+                    'class' => 'span9',
                 )
-            ))          
+            ))
             ->add('name', 'text', array(
                 'label' => 'Name',
-                'required' => false,
+                'required' => true,
                 'attr' => array(
-                    'title' => 'Enter the name',  
-                    'class' => 'capitalize',
+                    'placeholder' => 'Your name',
+                    'title' => 'Enter your name',
                 )
-            ))   
-  
+            ))
+
             ->add('isApproved', 'checkbox', array(
                 'label' => 'Is Approved',
                 'required' => false,
                 'attr' => array(
-                    'title' => 'Is Approved?',  
+                    'title' => 'Is Approved?',
                 )
-            ))   
+            ))
 
         ;
     }
