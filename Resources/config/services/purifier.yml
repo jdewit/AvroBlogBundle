@@ -1,0 +1,8 @@
+services:
+    avro.form.type.purified_textarea:
+        class: 'Avro\ExtraBundle\Form\Type\PufifiedTextAreaType'
+        arguments: ['@avro.form.transformer.html_purifier']
+
+    avro.form.transformer.html_purifier:
+        arguments: ['@exercise_html_purifier.default']
+        class: 'Exercise\HTMLPurifierBundle\Form\HTMLPurifierTransformer'
