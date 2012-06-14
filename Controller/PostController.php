@@ -22,18 +22,18 @@ class PostController extends ContainerAware
      * @Route("/list/{filter}", defaults={"filter" = "Featured"}, name="avro_blog_post_list")
      * @Route("/list/{filter}", defaults={"filter" = "Featured"}, name="avro_blog_post_list_featured")
      * @Route("/list/{filter}", defaults={"filter" = "Latest"}, name="avro_blog_post_list_latest")
-     * @Template()     
+     * @Template()
      */
     public function listAction($filter)
     {
         switch ($filter):
             case 'Featured':
-                $posts = $this->container->get('avro_blog.post_manager')->findAllPosts();           
+                $posts = $this->container->get('avro_blog.post_manager')->findAllPosts();
             break;
             case 'Latest':
-                $posts = $this->container->get('avro_blog.post_manager')->findAllPosts();            
-            break;            
-        endswitch;      
+                $posts = $this->container->get('avro_blog.post_manager')->findAllPosts();
+            break;
+        endswitch;
 
         return array(
             'posts' => $posts,
@@ -45,7 +45,7 @@ class PostController extends ContainerAware
      * Create a new post.
      *
      * @Route("/new", name="avro_blog_post_new")
-     * @Template()     
+     * @Template()
      */
     public function newAction()
     {
@@ -79,7 +79,7 @@ class PostController extends ContainerAware
 
         if (!$post) {
             $this->container->get('session')->getFlashBag()->set('error', 'Post not found.');
-            
+
             return new RedirectResponse($this->container->get('router')->generate('avro_blog_post_list'));
         }
 
@@ -115,7 +115,9 @@ class PostController extends ContainerAware
 
         return array(
             'post' => $post,
-            'posts' => $this->container->get('avro_blog.postManager')->findAllPosts()
+            'comments' => $this->container->get('avro_blog.comment_manager')->findBy(array('post' => $post)),
+            'posts' => $this->container->get('avro_blog.postManager')->findAllPosts(),
+            'commentForm' => $this->container->get('avro_blog.comment.form')->createView()
         );
     }
 
@@ -130,7 +132,7 @@ class PostController extends ContainerAware
         $this->container->get('avro_blog.post_manager')->deletePost($post);
         $this->container->get('session')->getFlashBag()->set('success', 'Post deleted.');
 
-        return new RedirectResponse($this->container->get('router')->generate('avro_blog_post_list'));     
+        return new RedirectResponse($this->container->get('router')->generate('avro_blog_post_list'));
     }
-       
+
 }

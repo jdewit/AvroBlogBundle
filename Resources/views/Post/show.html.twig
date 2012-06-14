@@ -9,13 +9,27 @@
                 <div>
                     {% if is_granted('ROLE_USER') %}
                         <div class="pull-right">
-                            <a href="{{ path('avro_blog_post_edit', {'id': post.id }) }}"><i class="sprite-page_edit"></i>Edit Post</a> | 
-                            <a href="{{ path('avro_blog_post_delete', {'id': post.id }) }}"><i class="sprite-page_delete"></i>Delete Post</a>
+                            <a href="{{ path('avro_blog_post_edit', {'id': post.id }) }}"><i class="blog-sprite-page-edit"></i>Edit Post</a> |
+                            <a href="{{ path('avro_blog_post_delete', {'id': post.id }) }}"><i class="blog-sprite-page-delete"></i>Delete Post</a>
                         </div>
                     {% endif %}
 
                     {{ post.content | raw }}
                 </div>
+                <hr />
+                <h2>{{ comments | length }} Comments</h2>
+                <div class="shadows">
+                    {% for comment in comments %}
+                        <div>
+                            {{ comment.body | raw }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <form action="{{ path('avro_blog_comment_new') }}" method="post">
+                    {{ form_widget(commentForm.body) }}
+                    {{ form_widget(commentForm._token) }}
+                    <button type="submit">Add Comment</button>
+                </form>
             </div>
         </div><!--/span-->
         <div class="span3">
@@ -25,6 +39,5 @@
         </div><!--/span-->
     </div>
     <hr />
-    {% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': 'blog_'~post.id } %}
 {% endblock %}
 

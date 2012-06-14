@@ -32,7 +32,6 @@ class PostManager
     {
         $class = $this->getClass();
         $post = new $class();
-        $post->setCreatedBy($this->context->getToken()->getUser());
 
         return $post;
     }
@@ -95,13 +94,6 @@ class PostManager
      */
     public function updatePost(Post $post, $andFlush = true)
     {
-        $user = $this->context->getToken()->getUser();
-        $createdBy = $post->getCreatedBy();
-        if (!$user->hasRole('ROLE_ADMIN') && !empty($createBy)) {
-            if ($post->getCreatedBy() != $user) {
-                throw new AccessDeniedException('You are not allowed to edit this post');
-            }
-        }
         //clean content
 //        $purifier = new HTMLPurifier();
 //        $post->setContent($purifier->purify($post->getContent()));

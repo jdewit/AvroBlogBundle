@@ -1,37 +1,31 @@
 {% extends '::layout.html.twig' %}
 {% block content %}
-    <div class="row">
-        <div class="span9">
-            {% for post in posts %}
-                <div id="post{{ post.id }}">
-                    <div class="page-header">
-                        <h1>{{ post.title }}</h1>
-                    </div>
-                    <div>
-                        {% if is_granted('ROLE_USER') %}
-                            <div class="pull-right">
-                                <a href="{{ path('avro_blog_post_edit', {'id': post.id }) }}"><i class="sprite-page_edit"></i>Edit Post</a> | 
-                                <a href="{{ path('avro_blog_post_delete', {'id': post.id }) }}"><i class="sprite-page_delete"></i>Delete Post</a>
-                            </div>
-                        {% endif %}
-                        {{ post.content | raw }}
-                    </div>
-                </div>
-                <hr />
-                <div>
-                    <a href="#" data-toggle="collapse" data-target="#comments{{ post.id }}">View Comments</a>
-                </div>
-                <div id="comments{{ post.id }}" class="collapse">
-                    {% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': 'blog_'~post.id } %}
-                </div>
-            {% else %}
-                <div>&nbsp;</div>
-            {% endfor %}
-        </div><!--/span-->
-        <div class="span3">
-            <div class="well sidebar-nav">
-                {% include 'AvroBlogBundle:Blog:posts_menu.html.twig' %}
-            </div><!--/.well -->
-        </div><!--/span-->
+    <div class="page-header">
+        <h1>Latest Posts
+            {% if is_granted('ROLE_USER') %}
+                <a class="btn btn-primary btn-large pull-right" href="{{ path('avro_blog_post_new') }}"><i class="icon-plus icon-white"></i>New Post</a>
+            {% endif %}
+        </h1>
     </div>
-{% endblock %}    
+    {% for post in posts %}
+        <div class="">
+            <div id="post{{ post.id }}">
+                <div class="pull-right">{{ post.createdAt | date('F jS, Y') }}</div>
+                <h3>{{ post.title }}</h3>
+                <div>
+                    {% if is_granted('ROLE_USER') %}
+                        <div class="pull-right">
+                            <a href="{{ path('avro_blog_post_edit', {'id': post.id }) }}"><i class="blog-sprite-page-edit"></i>Edit Post</a> |
+                            <a href="{{ path('avro_blog_post_delete', {'id': post.id }) }}"><i class="blog-sprite-page-delete"></i>Delete Post</a>
+                        </div>
+                    {% endif %}
+                    {{ post.content | truncate(500) | raw }}
+                    <a href="{{ path('avro_blog_post_show', {'id': post.id}) }}">...read more</a>
+                </div>
+            </div>
+        </div>
+        <hr />
+    {% else %}
+        <div>0 posts</div>
+    {% endfor %}
+{% endblock %}

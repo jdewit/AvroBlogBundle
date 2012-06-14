@@ -89,13 +89,6 @@ class Post
     protected $tags;
 
     /**
-     * @var string
-     *
-     * @ORM\ManyToOne(targetEntity="Avro\AssetBundle\Entity\Image", cascade={"all"})
-     */
-    protected $image;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
@@ -355,27 +348,6 @@ class Post
     {
         $this->tags->removeElement($tag);
     }
-
-    /**
-     * Get image
-     *
-     * @return string
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    /**
-     * Set image
-     *
-     * @param string $image
-     */
-    public function setImage($image)
-    {
-        $this->image = $image;
-    }
-
 
     /**
     * Set createdAt

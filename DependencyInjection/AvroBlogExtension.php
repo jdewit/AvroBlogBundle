@@ -17,7 +17,8 @@ class AvroBlogExtension extends Extension
 
         $config = $processor->processConfiguration($configuration, $configs);
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-//        $loader->load('config.yml');
+        $loader->load('services/post.yml');
+        $loader->load('services/comment.yml');
 
         $container->setParameter('avro_blog.style', $config['style']);
     }

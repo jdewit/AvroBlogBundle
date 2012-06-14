@@ -22,7 +22,7 @@ class CommentController extends ContainerAware
      * List  Comments.
      *
      * @Route("/list/{filter}", name="avro_blog_comment_list", defaults={"filter" = "All"})
-     * @Template()     
+     * @Template()
      */
     public function listAction($filter)
     {
@@ -50,12 +50,12 @@ class CommentController extends ContainerAware
             'comments' => $comments,
             'form' => $form->createView()
         );
-    }   
+    }
     /**
      * Create a new  Comment.
      *
      * @Route("/new", name="avro_blog_comment_new")
-     * @Template()     
+     * @Template()
      */
     public function newAction()
     {
@@ -67,13 +67,10 @@ class CommentController extends ContainerAware
             $comment = $commentForm->getData('comment');
             $this->container->get('session')->getFlashBag()->set('success', ' Comment created.');
 
-            return new RedirectResponse($this->container->get('router')->generate('avro_blog_comment_edit', array('id' => $comment->getId())), 301);
+            return new RedirectResponse($this->container->get('router')->generate('avro_blog_post_show', array('id' => $comment->getPost()->getId())), 301);
         }
 
-        return array(
-            'commentForm' => $commentForm->createView(),
-        );
-
+        return new RedirectResponse($this->container->get('router')->generate('avro_blog_blog_index'), 301);
     }
 
     /**
@@ -111,10 +108,10 @@ class CommentController extends ContainerAware
     {
         $comment = $this->container->get('avro_blog.comment_manager')->find($id);
         $this->container->get('avro_blog.comment_manager')->softDelete($comment);
-            
+
         $this->container->get('session')->getFlashBag()->set('success', ' Comment deleted.');
 
-        return new RedirectResponse($this->container->get('router')->generate('avro_blog_comment_list'), 301);     
+        return new RedirectResponse($this->container->get('router')->generate('avro_blog_comment_list'), 301);
     }
 
     /**
@@ -127,11 +124,11 @@ class CommentController extends ContainerAware
         if ($id) {
             $comment = $this->container->get('avro_blog.comment_manager')->find($id);
             $this->container->get('avro_blog.comment_manager')->restore($comment);
-            
+
             $this->container->get('session')->getFlashBag()->set('success', ' Comment restored.');
         }
 
-        return new RedirectResponse($this->container->get('router')->generate('avro_blog_comment_list'), 301);     
+        return new RedirectResponse($this->container->get('router')->generate('avro_blog_comment_list'), 301);
     }
 
 }
