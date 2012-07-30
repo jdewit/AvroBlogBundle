@@ -1,7 +1,16 @@
 services:
-    avro.form.type.purified_textarea:
-        class: 'Avro\ExtraBundle\Form\Type\PufifiedTextAreaType'
+    avro.form.type.purified_text:
+        class: 'Avro\BlogBundle\Form\Type\PurifiedTextType'
         arguments: ['@avro.form.transformer.html_purifier']
+        tags:
+            - { name: form.type, alias: purified_text }
+
+    avro.form.type.purified_textarea:
+        class: 'Avro\BlogBundle\Form\Type\PurifiedTextAreaType'
+        arguments: ['@avro.form.transformer.html_purifier']
+        tags:
+            - { name: form.type, alias: purified_textarea }
+
 
     avro.form.transformer.html_purifier:
         arguments: ['@exercise_html_purifier.default']

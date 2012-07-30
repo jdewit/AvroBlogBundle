@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class PurifiedTextareaType extends AbstractType
+class PurifiedTextType extends AbstractType
 {
     private $purifierTransformer;
 
@@ -22,11 +22,11 @@ class PurifiedTextareaType extends AbstractType
 
     public function getParent()
     {
-        return 'textarea';
+        return 'text';
     }
 
     public function getName()
     {
-        return 'purified_textarea';
+        return 'purified_text';
     }
 }

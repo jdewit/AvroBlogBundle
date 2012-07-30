@@ -69,10 +69,6 @@ class CommentManager
      */
     public function update(Comment $comment, $andFlush = true, $andClear = false)
     {
-        //clean content
-        $purifier = new HTMLPurifier();
-        $comment->setBody($purifier->purify($post->getBody()));
-
         $this->em->persist($comment);
 
         if ($andFlush) {
