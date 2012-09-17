@@ -19,8 +19,7 @@
                             <a href="{{ path('avro_blog_post_delete', {'id': post.id }) }}"><i class="blog-sprite-page-delete"></i>Delete Post</a>
                         </div>
                     {% endif %}
-                    {{ post.content | truncate(500) | raw }}
-                    <a href="{{ path('avro_blog_post_show', {'id': post.id}) }}">...read more</a>
+                    {{ post.content | raw }}
                 </div>
             </div>
         </div>
