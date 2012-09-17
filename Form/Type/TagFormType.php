@@ -3,6 +3,7 @@ namespace Avro\BlogBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class TagFormType extends AbstractType
 {
@@ -29,9 +30,12 @@ class TagFormType extends AbstractType
         ;
     }
 
-    public function getDefaultOptions()
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array('data_class' => 'Avro\BlogBundle\Entity\Tag');
+        $resolver->setDefaults(array(
+            'data_class' => 'Avro\BlogBundle\Entity\Tag'
+        ));
     }
 
     public function getName()

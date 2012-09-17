@@ -4,6 +4,7 @@ namespace Avro\BlogBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Avro\AssetBundle\Form\Type\ImageFormType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class PostFormType extends AbstractType
 {
@@ -33,9 +34,11 @@ class PostFormType extends AbstractType
         ;
     }
 
-    public function getDefaultOptions()
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array('data_class' => 'Avro\BlogBundle\Entity\Post');
+        $resolver->setDefaults(array(
+            'data_class' => 'Avro\BlogBundle\Entity\Post'
+        ));
     }
 
     public function getName()
