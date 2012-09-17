@@ -323,7 +323,7 @@ class Post
      *
      * @param ArrayCollection $tags
      */
-    public function setTags(\Avro\BlogBundle\Entity\TagInterface $tags)
+    public function setTags(\Avro\BlogBundle\Entity\Tag $tags)
     {
         $this->tags = $tags;
     }
@@ -333,7 +333,7 @@ class Post
      *
      * @param \Avro\BlogBundle\Entity\Tag $tag
      */
-    public function addTag(\Avro\BlogBundle\Entity\TagInterface $tag)
+    public function addTag(\Avro\BlogBundle\Entity\Tag $tag)
     {
         $this->tags->add($tag);
         $tag->set($this);
@@ -344,7 +344,7 @@ class Post
      *
      * @param \Avro\BlogBundle\Entity\Tag $tag
      */
-    public function removeTag(\Avro\BlogBundle\Entity\TagInterface $tag)
+    public function removeTag(\Avro\BlogBundle\Entity\Tag $tag)
     {
         $this->tags->removeElement($tag);
     }
