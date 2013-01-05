@@ -1,0 +1,10 @@
+{% extends 'AvroBlogBundle::layout.html.twig' %}
+{% block content %}
+    <div class="page-header">
+        <h1>
+            Tag List
+            <a href="{{ path('avro_blog_tag_new') }}" class="btn btn-success btn-large pull-right get-modal" data-target="#tagFormModal"><i class="icon-plus icon-white"></i> New Tag</a>
+        </h1>
+    </div>
+    {% include 'AvroBlogBundle:Tag:table.html.twig' %}
+{% endblock %}

@@ -1,0 +1,36 @@
+<table class="styled table-condensed table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>{{ paginator_heading(paginator, 'name') }}</th>
+            <th style="width: 190px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tag in tags %}
+            <tr>
+                <td>{{ tag.name }}</td>
+                <td class="center-align">
+                    <div class="btn-group" style="display: inline-block;">
+                        <a class="btn btn-primary get-modal" data-target="#tagFormModal" href="{{ path('avro_blog_tag_edit',{'id': tag.id}) }}"><i class="icon-pencil icon-white"></i> Edit</a>
+                        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle"><span class="caret"></span></button>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a class="get-modal" data-target="#tagFormModal" href="{{ path('avro_blog_tag_edit',{'id': tag.id}) }}"><i class="icon-pencil"></i> Edit</a></li>
+                            <li><a href="{{ path('avro_blog_tag_delete',{'id': tag.id}) }}"><i class="icon-remove"></i> Delete</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="0" class="left-align">0 Tags Found</td>
+            </tr>
+         {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="100%" class="center-align">
+                {{ paginator(paginator) }}
+            </td>
+        </tr>
+    </tfoot>
+</table>

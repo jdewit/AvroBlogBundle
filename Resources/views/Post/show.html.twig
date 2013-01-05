@@ -1,0 +1,15 @@
+{% extends 'AvroBlogBundle::layout.html.twig' %}
+{% block css %}
+    #postContent {
+        min-height: 100px;
+    }
+{% endblock %}
+{% block blog_content %}
+    <div class="row-fluid">
+        <div class="span12">
+            {% include 'AvroBlogBundle:Post:content.html.twig' %}
+        </div>
+    </div>
+
+{% endblock %}
+

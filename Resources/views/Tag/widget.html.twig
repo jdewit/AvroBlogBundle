@@ -1,0 +1,7 @@
+            <div class="well">
+                <h3>Tags</h3>
+                {% for tag in tags %}
+                    <a href="{{ path('avro_blog_blog_index', {'slug': tag.slug}) }}">{{ tag.name }}</a>{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </div>
+

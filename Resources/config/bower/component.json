@@ -1,0 +1,6 @@
+{
+    "dependencies": {
+        "bootstrap": "latest",
+        "tinymce": "https://github.com/tinymce/tinymce.git"
+    }
+}

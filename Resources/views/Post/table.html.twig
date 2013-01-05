@@ -1,0 +1,77 @@
+<table class="list"><tbody>
+    {% for post in posts %}
+        <tr style="padding: 10px; border-bottom: 1px solid #ccc;">
+            <td style="width: 100px;">
+                <a href="{{ path('avro_blog_post_show', {'slug': post.slug }) }}">
+                    <img src="{{ img_src(post.image, 'list_square') }}" />
+                </a>
+            </td>
+            <td class="left-align">
+                <h4 style="margin-top: 0;">
+                    <a href="{{ path('avro_blog_post_show', {'slug': post.slug }) }}">
+                        {{ post.title }}
+                    </a>
+                    <span class="hidden-phone pull-right">
+                        {{ avro_rating(post.rating) }}
+                    </span>
+                </h4>
+                <p>{{ post.summary | truncate(125) }}</p>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="100%" class="left-align">No posts found.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    {% if paginator is defined %}
+        <tfoot>
+            <tr>
+                <td>{{ paginator(paginator) }}</td>
+            </tr>
+        </tfoot>
+    {% endif %}
+</table>
+{#
+<table class="table-condensed table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>{{ paginator.link('slug') | raw }}</th>
+            <th style="width: 190px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for post in posts %}
+            <tr>
+                <td>{{ post.slug }}</td>
+                <td class="center-align">
+                    <div class="btn-group" style="display: inline-block;">
+                        <a class="btn btn-primary get-modal" data-target="#postForm" href="{{ path('avro_blog_post_edit',{'id': post.id}) }}"><i class="icon-pencil icon-white"></i> Edit</a>
+                        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle"><span class="caret"></span></button>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a class="get-modal" data-target="#postForm" href="{{ path('avro_blog_post_edit',{'id': post.id}) }}"><i class="icon-pencil"></i> Edit</a></li>
+                            {% if post.isDeleted %}
+                            <li><a href="{{ path('avro_blog_post_restore',{'id': post.id}) }}" title="Are you sure you want to restore this post"><i class="icon-refresh"></i> Restore</a></li>
+
+                            {% else %}
+                            <li><a href="{{ path('avro_blog_post_delete',{'id': post.id}) }}" title="Are you sure you want to restore this post"><i class="icon-remove"></i> Delete</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="100%" class="left-align">0 Posts Found</td>
+            </tr>
+         {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="100%" class="center-align">
+                {{ paginator.render | raw }}
+            </td>
+        </tr>
+    </tfoot>
+</table>
+#}

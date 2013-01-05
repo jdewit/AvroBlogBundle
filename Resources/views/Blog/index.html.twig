@@ -1,0 +1,11 @@
+{% extends 'AvroBlogBundle::layout.html.twig' %}
+
+{% block blog_content %}
+    <div class="row-fluid">
+        <div class="span12">
+            {% for post in posts %}
+                {% include 'AvroBlogBundle:Post:preview.html.twig' %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

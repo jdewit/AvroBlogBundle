@@ -1,0 +1,25 @@
+<div class="well">
+    <h3 class="underline left-align">Recent Posts</h3>
+    <ul class="unstyled left-align">
+    {% for post in posts %}
+        <li><a href="{{ path('avro_blog_blog_index', {'slug': post.slug}) }}">{{ post.title }}</a></li>
+        <hr class="soften" style="margin: 5px 0;" />
+    {% endfor %}
+    {% if is_granted("ROLE_ADMIN") %}
+        <li><a class="get-modal" data-target="#postFormModal" href="{{ path('avro_blog_post_new') }}">+ New Post</a></li>
+    {% endif %}
+
+    </ul>
+</div>
+<div class="well">
+    <h3 class="underline left-align">Tags</h3>
+    <ul class="unstyled left-align">
+    {% for tag in tags %}
+        <li><a href="{{ path('avro_blog_blog_tag', {'slug': tag.slug}) }}">{{ tag.name }}</a></li>
+    {% endfor %}
+    {% if is_granted("ROLE_ADMIN") %}
+        <li><a class="get-modal" data-target="#tagFormModal" href="{{ path('avro_blog_tag_new') }}">+ New Tag</a></li>
+    {% endif %}
+    </ul>
+</div>
+

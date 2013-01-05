@@ -1,0 +1,21 @@
+{% extends 'AvroBlogBundle::layout.html.twig' %}
+
+{% block blog_content %}
+
+{% if is_granted("ROLE_ADMIN") %}
+    <div class="page-header">
+        <h1>
+            Blog
+            <a class="btn btn-large btn-primary pull-right get-modal" data-target="#postFormModal" href="{{ path('avro_blog_post_new') }}"><i class="icon-plus icon-white"></i> New Post</a>
+        </h1>
+    </div>
+{% endif %}
+    <div class="row-fluid">
+        <div class="span12">
+            {% if tag %}<div class="well"><strong>Tag:</strong> {{ tag.name }}</div>{% endif %}
+            {% for post in posts %}
+               {% include 'AvroBlogBundle:Post:content.html.twig' %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

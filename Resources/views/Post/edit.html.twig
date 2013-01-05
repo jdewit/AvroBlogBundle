@@ -1,0 +1,13 @@
+<form id="postFormModal" class="form-horizontal modal modal-large hide" action="{{ path('avro_blog_post_edit', {'id': post.id, 'section': section}) }}" data-backdrop="true" method="POST" {{ form_enctype(form) }}>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>Edit {{ section | camelCaseToTitle }}</h3>
+    </div>
+    <div class="modal-body">
+        {% include 'AvroBlogBundle:Post:form.html.twig' %}
+    </div>
+    <div class="modal-footer">
+        <button href="#" class="btn btn-primary btn-large pull-right" type="submit"><i class="icon-ok icon-white"></i> Submit</button>
+        <a href="#" class="btn btn-large close-modal" data-dismiss="modal"><i class="icon-remove"></i>Close</a>
+    </div>
+</form>

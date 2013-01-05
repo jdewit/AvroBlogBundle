@@ -1,0 +1,18 @@
+{% extends 'ApplicationCoreBundle::layout.html.twig' %}
+{% block css %}
+{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <h1>
+            Posts
+            {% if is_granted("ROLE_ADMIN") %}
+                {{ paginator_filter(paginator) }}
+            {% endif %}
+
+            {{ new_btn('post') }}
+        </h1>
+    </div>
+    <div>
+        {% include 'ApplicationCoreBundle:Post:table.html.twig' %}
+    </div>
+{% endblock %}

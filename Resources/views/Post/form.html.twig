@@ -1,0 +1,23 @@
+{% import 'AvroImageBundle:Templates:image.html.twig' as image_widget %}
+{{ form_errors(form) }}
+{% if section == 'new' %}
+    {{ form_row(form.createdBy) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.summary) }}
+    {{ image_widget.row(form.image) }}
+{% elseif section == 'title' %}
+    {{ form_row(form.title) }}
+    {{ form_row(form.summary) }}
+{% elseif section == 'content' %}
+    {{ form_widget(form.content) }}
+{% elseif section == 'image' %}
+    {{ image_widget.row(form.image) }}
+{% elseif section == 'tags' %}
+    {{ form_row(form.tags) }}
+{% elseif section == 'admin' %}
+    {{ form_row(form.isApproved) }}
+    {{ form_row(form.isFeatured) }}
+{% endif %}
+
+{#{{ form_row(form.vendor) }}#}
+{{ form_widget(form._token) }}

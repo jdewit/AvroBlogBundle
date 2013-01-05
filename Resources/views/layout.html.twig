@@ -1,0 +1,13 @@
+{% extends '::siteLayout.html.twig' %}
+{% block content %}
+    <div class="row-fluid">
+        <div class="span9">
+            {% block blog_content %}{% endblock %}
+        </div>
+        <div class="span3 center-align">
+            {% render 'AvroBlogBundle:Post:widget' %}
+        </div>
+    </div>
+{% endblock %}
+
+
