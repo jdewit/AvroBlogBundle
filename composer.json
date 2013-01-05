@@ -1,9 +1,9 @@
 {
-    "name": "avro/paginator-bundle",
+    "name": "avro/blog-bundle",
     "type": "symfony-bundle",
-    "description": "Symfony2 paginator bundle",
-    "keywords": ["paginator"],
-    "homepage": "http://github.com/jdewit/PaginatorBundle",
+    "description": "Symfony2 Blog bundle",
+    "keywords": ["blog"],
+    "homepage": "http://github.com/jdewit/AvroBlogBundle",
     "license": "MIT",
     "authors": [
         {
@@ -15,7 +15,7 @@
         "php": ">=5.3.2"
     },
     "autoload": {
-        "psr-0": { "Avro\\PaginatorBundle": "" }
+        "psr-0": { "Avro\\BlogBundle": "" }
     },
-    "target-dir": "Avro/PaginatorBundle"
+    "target-dir": "Avro/BlogBundle"
 }

@@ -1,6 +1,5 @@
-AvroPaginatorBundle
+AvroBlogBundle
 -----------------
 
-Not Ready Yet
-
+WIP
 
