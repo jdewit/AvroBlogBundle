@@ -1,0 +1,4 @@
+services:
+    avro_blog.post_manager:
+        class: Avro\BlogBundle\Document\PostManager
+        arguments: ["@doctrine.odm.mongodb.document_manager"]

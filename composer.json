@@ -1,7 +1,7 @@
 {
     "name": "avro/blog-bundle",
     "type": "symfony-bundle",
-    "description": "Symfony2 Blog bundle",
+    "description": "Another very simple Symfony2 Blog bundle",
     "keywords": ["blog"],
     "homepage": "http://github.com/jdewit/AvroBlogBundle",
     "license": "MIT",
@@ -12,7 +12,18 @@
         }
     ],
     "require": {
-        "php": ">=5.3.2"
+        "php": ">=5.3.2",
+        "knplabs/knp-paginator-bundle": "2.2.*",
+        "doctrine/doctrine-bundle": "1.0.*"
+    },
+    "require-dev": {
+        "phpspec/phpspec2": "*",
+        "liip/functional-test-bundle": "*",
+        "doctrine/doctrine-fixtures-bundle": "*"
+    },
+    "suggest": {
+        "doctrine/orm": "If you want to use orm for storage",
+        "doctrine/mongodb-odm-bundle": "For mongodb storage"
     },
     "autoload": {
         "psr-0": { "Avro\\BlogBundle": "" }

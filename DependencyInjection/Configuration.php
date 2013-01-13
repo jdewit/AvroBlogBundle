@@ -24,6 +24,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('db_driver')->defaultValue('mongodb')->cannotBeEmpty()->end()
+                ->scalarNode('list_count')->defaultValue(10)->cannotBeEmpty()->end()
             ->end();
 
         return $treeBuilder;
