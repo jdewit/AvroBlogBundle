@@ -13,8 +13,8 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "knplabs/knp-paginator-bundle": "2.2.*",
-        "doctrine/doctrine-bundle": "1.0.*",
+        "knplabs/knp-paginator-bundle": "*",
+        "doctrine/doctrine-bundle": "*",
         "stof/doctrine-extensions-bundle": "*"
     },
     "suggest": {
