@@ -46,6 +46,6 @@ class BlogController extends ContainerAware
         return $this->container->get('templating')->renderResponse('AvroBlogBundle:Blog:sideWidget.html.twig', array(
             'posts' => $posts,
             'tags' => $tags
-        );
+        ));
     }
 }
