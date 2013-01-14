@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\DependencyInjection\ContainerAware;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -20,32 +21,39 @@ use Avro\BlogBundle\Form\Type\PostFormType;
  *
  * @author Joris de Wit <joris.w.dewit@gmail.com>
  */
-class BlogController extends Controller
+class BlogController extends ContainerAware
 {
     /**
-     * List Posts.
-     *
-     * @Route("/blog/{slug}", name="avro_blog_blog_index", defaults={"slug"=false})
-     * @Template()
+     * Blog home page.
      */
     public function indexAction($slug)
     {
-        $paginator = $this->get('avro_paginator.paginator');
-        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $postManager = $this->container->get('avro_blog.post_manager');
 
-        $paginator->setClass('AvroBlogBundle:Post');
-        $paginator->sortBy('createdAt', 'desc');
-        $post = false;
         if ($slug) {
-            $post = $dm->getRepository('AvroBlogBundle:Post')->findOneBy(array('slug' => $slug));
-            return $this->get('templating')->renderResponse('AvroBlogBundle:Post:show.html.twig', array('post' => $post));
+            $post = $postManager->findOneBy(array('slug' => $slug));
+
+            return $this->container->get('templating')->renderResponse('AvroBlogBundle:Post:show.html.twig', array('post' => $post));
         }
 
-        $posts = $paginator->getResults();
+        $posts = $postManager->findAll();
+
+        return $this->container->get('templating')->renderResponse('AvroBlogBundle:Blog:index.html.twig', array(
+            'posts' => $posts,
+        ));
+    }
+
+    /**
+     * @Template()
+     */
+    public function sideWidgetAction()
+    {
+        $posts = $this->container->get('avro_blog.post_manager')->findAll();
+        $tags = $this->container->get('avro_blog.tag_manager')->findAll();
 
         return array(
             'posts' => $posts,
-            'paginator' => $paginator
+            'tags' => $tags
         );
     }
 

@@ -1,10 +1,11 @@
 <?php
-namespace Avro\PaginatorBundle\DependencyInjection;
+
+namespace Avro\BlogBundle\DependencyInjection;
 
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Alias;
 
@@ -19,7 +20,7 @@ class AvroBlogExtension extends Extension
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
-        $loader->load(sprintf('%s.xml', $config['db_driver']));
+        $loader->load(sprintf('%s.yml', $config['db_driver']));
 
         $container->setParameter('avro_blog.list_count', $config['list_count']);
     }

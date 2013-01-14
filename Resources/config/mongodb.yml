@@ -1,4 +1,8 @@
 services:
     avro_blog.post_manager:
         class: Avro\BlogBundle\Document\PostManager
-        arguments: ["@doctrine.odm.mongodb.document_manager"]
+        arguments: ["@doctrine.odm.mongodb.document_manager", Avro\BlogBundle\Document\Post]
+
+    avro_blog.tag_manager:
+        class: Avro\BlogBundle\Document\TagManager
+        arguments: ["@doctrine.odm.mongodb.document_manager", Avro\BlogBundle\Document\Tag]

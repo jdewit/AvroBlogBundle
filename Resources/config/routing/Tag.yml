@@ -1,0 +1,7 @@
+avro_blog_tag_new:
+    pattern:   /blog/tag/new
+    defaults:  { _controller: AvroBlogBundle:Tag:new}
+
+avro_blog_tag_edit:
+    pattern:   /blog/tag/edit/{slug}
+    defaults:  { _controller: AvroBlogBundle:Tag:edit}

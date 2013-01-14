@@ -1,44 +1,19 @@
 <?php
 
-use Avro\BlogBundle\Model;
+namespace Avro\BlogBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Post model class
+ *
+ * @author Joris de Wit <joris.w.dewit@gmail.com>
  */
-class Post implements PostInterface
+abstract class Post implements PostInterface
 {
-    public $id;
-    protected $slug;
-    protected $title;
-    protected $summary;
-    protected $content;
-    protected $views;
-    protected $isApproved = false;
-    protected $isPublic = true;
-    protected $isFeatured;
-    protected $image;
-    protected $tags;
-    protected $createdBy;
-    protected $createdAt;
-    protected $updatedAt;
-    protected $isDeleted;
-    protected $deletedAt;
-
     public function __construct()
     {
         $this->tags = new ArrayCollection();
-    }
-
-    public function prePersist()
-    {
-        $this->createdAt = new \DateTime('now');
-    }
-
-    public function preUpdate()
-    {
-        $this->updatedAt = new \DateTime('now');
     }
 
     /**
@@ -290,28 +265,6 @@ class Post implements PostInterface
     public function getIsFeatured()
     {
         return $this->isFeatured;
-    }
-
-    /**
-     * Set image
-     *
-     * @param string $image
-     * @return Post
-     */
-    public function setImage($image)
-    {
-        $this->image = $image;
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return  $image
-     */
-    public function getImage()
-    {
-        return $this->image;
     }
 
     public function getTags()

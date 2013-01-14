@@ -1,0 +1,8 @@
+avro_blog_blog:
+    resource: "@AvroBlogBundle/Resources/config/routing/Blog.yml"
+
+avro_blog_post:
+    resource: "@AvroBlogBundle/Resources/config/routing/Post.yml"
+
+avro_blog_tag:
+    resource: "@AvroBlogBundle/Resources/config/routing/Tag.yml"

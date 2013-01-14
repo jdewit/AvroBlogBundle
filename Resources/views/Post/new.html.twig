@@ -1,4 +1,7 @@
-<form id="postFormModal" class="form-horizontal modal modal-large hide" action="{{ path('avro_blog_post_new') }}" data-backdrop="true" method="POST" {{ form_enctype(form) }}>
+{% extends 'AvroBlogBundle::layout.html.twig' %}
+
+{% block blog_content %}
+<form id="postForm" class="form-horizontal" action="{{ path('avro_blog_post_new') }}" data-backdrop="true" method="POST" {{ form_enctype(form) }}>
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h3>New Post</h3>
@@ -11,3 +14,6 @@
         <a href="#" class="btn close-modal" data-dismiss="modal"><i class="icon-remove"></i>Close</a>
     </div>
 </form>
+{% endblock %}
+
+

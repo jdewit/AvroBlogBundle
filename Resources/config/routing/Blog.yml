@@ -1,0 +1,3 @@
+avro_blog_blog_index:
+    pattern:   /blog/{slug}
+    defaults:  { _controller: AvroBlogBundle:Blog:index, slug: false}

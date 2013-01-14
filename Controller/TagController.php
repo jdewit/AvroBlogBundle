@@ -4,7 +4,7 @@ namespace Avro\BlogBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\DependencyInjection\ContainerAware;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -18,7 +18,7 @@ use Avro\BlogBundle\Form\Type\TagFormType;
  *
  * @author Joris de Wit <joris.w.dewit@gmail.com>
  */
-class TagController extends Controller
+class TagController extends ContainerAware
 {
     /**
      * List Tags.

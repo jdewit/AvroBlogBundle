@@ -1,0 +1,15 @@
+avro_blog_post_listByAuthor:
+    pattern:   /blog/posts/author/{id}
+    defaults:  { _controller: AvroBlogBundle:Post:listByAuthor}
+
+avro_blog_post_new:
+    pattern:   /blog/post/new
+    defaults:  { _controller: AvroBlogBundle:Post:new}
+
+avro_blog_post_edit:
+    pattern:   /blog/post/edit/{slug}
+    defaults:  { _controller: AvroBlogBundle:Post:edit}
+
+avro_blog_post_show:
+    pattern:   /blog/post/show/{slug}
+    defaults:  { _controller: AvroBlogBundle:Post:show}

@@ -2,30 +2,22 @@
 
 namespace Avro\BlogBundle\Controller;
 
-use JMS\SecurityExtraBundle\Annotation\Secure;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Avro\BlogBundle\Document\Post;
-use Avro\ImageBundle\Document\Image;
+use Symfony\Component\DependencyInjection\ContainerAware;
+
 use Avro\BlogBundle\Form\Type\PostFormType;
+use Avro\BlogBundle\Event\PostEvent;
 
 /**
  * Post controller.
  *
  * @author Joris de Wit <joris.w.dewit@gmail.com>
  */
-class PostController extends Controller
+class PostController extends ContainerAware
 {
     /**
      * List Posts.
-     *
-     * @Route("/posts", name="avro_blog_post_list")
-     * @Template()
      */
     public function listAction()
     {
@@ -58,11 +50,19 @@ class PostController extends Controller
     }
 
     /**
-     * Create a new Post.
+     * List Posts by author.
      *
-     * @Route("/post/new", name="avro_blog_post_new")
-     * @Template()
-     * @Secure(roles="ROLE_USER")
+     */
+    public function listByAuthorAction()
+    {
+
+        return $this->container->get('templating')->renderResponse('AvroBlogBundle:Post:edit.html.twig', array(
+
+        ));
+    }
+
+    /**
+     * Create a new Post.
      */
     public function newAction()
     {
@@ -87,165 +87,75 @@ class PostController extends Controller
     /**
      * Edit one Post, show the edit form.
      *
-     * @Route("/post/edit/{id}", name="avro_blog_post_edit")
-     * @Template()
-     * @Secure(roles="ROLE_USER")
      */
-    public function editAction($id)
+    public function editAction(Request $request, $slug)
     {
-        $post = $this->get('doctrine.odm.mongodb.document_manager')
-            ->getRepository('AvroBlogBundle:Post')
-            ->find($id);
+        $postManager = $this->container->get('avro_blog.post_manager');
+        $post = $postManager->findOneBy(array('slug' => $slug));
 
         if (!$post) {
             throw $this->createNotFoundException('No post found');
         }
 
-        $section = $this->get('request')->query->get('section');
+        $section = $this->container->get('request')->query->get('section');
 
-        $form = $this->createForm(new PostFormType($section), $post);
-        if (true === $this->processForm($form, $post, $section)) {
-            $this->get('session')->getFlashBag()->set('success', 'Post updated.');
+        $form = $this->container->get('form.factory')->create(new PostFormType($section), $post);
+        if ('POST' == $request->getMethod()) {
+            $form->bind($request);
+            if ($form->isValid()) {
+                $eventDispatcher = $this->container->get('event_dispatcher');
+                $eventDispatcher->dispatch('avro_blog.post_update', new PostEvent($request, $post));
+                $postManager->update($post);
 
-            return new RedirectResponse($this->get('router')->generate('avro_blog_post_show', array('slug' => $post->getSlug())), 301);
+                $this->container->get('session')->getFlashBag()->set('success', 'Post updated.');
+                $eventDispatcher->dispatch('avro_blog.post_updated', new PostEvent($request, $post));
+
+                return new RedirectResponse($this->container->get('router')->generate('avro_blog_post_show', array('slug' => $post->getSlug())), 301);
+            }
         }
 
-        return array(
+        return $this->container->get('templating')->renderResponse('AvroBlogBundle:Post:edit.html.twig', array(
             'form' => $form->createView(),
             'post' => $post,
             'admin' => $this->isAdmin(),
             'section' => $section
-        );
+        ));
     }
 
     /**
      * Show one Post.
      *
-     * @Route("/post/show/{slug}", name="avro_blog_post_show")
-     * @Template()
      */
     public function showAction($slug)
     {
-        $post = $this->getPost($slug);
+        $postManager = $this->container->get('avro_blog.post_manager');
 
-        $dm = $this->get('doctrine.odm.mongodb.document_manager');
-        $tags = $dm->getRepository('AvroBlogBundle:Tag')->findAll();
+        $post = $postManager->findOneBy(array('slug' => $slug));
 
-        return array(
+        return $this->container->get('templating')->renderResponse('AvroBlogBundle:Post:show.html.twig', array(
             'post' => $post,
-            'admin' => $this->isAdmin(),
-            'tags' => $tags
-        );
-    }
-
-    /**
-     * Process Post form
-     *
-     * @param postFormType $form
-     * @return boolean true is successful
-     */
-    public function processForm($form, $post, $section)
-    {
-        $request = $this->get('request');
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
-            if (true === $form->isValid()) {
-                $dm = $this->get('doctrine.odm.mongodb.document_manager');
-
-                $image = $post->getImage();
-                if ($image) {
-                    $file = $image->getFile();
-                    if ($file) {
-                        if ($file->getFile() instanceof UploadedFile) {
-                            $path = $file->getFile()->getRealPath();
-                            $file->setFile($path);
-                            $image->setFile($file);
-                            $post->setImage($image);
-                        }
-                    }
-                }
-
-                $dm->persist($post);
-                $dm->flush();
-
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @Route("/widget", name="avro_blog_post_widget")
-     * @Template()
-     */
-    public function widgetAction()
-    {
-        $dm = $this->get('doctrine.odm.mongodb.document_manager');
-        $qb = $dm->createQueryBuilder('AvroBlogBundle:Post');
-        $qb->sort('createdAt');
-        $qb->limit(10);
-        $posts = $qb->getQuery()->execute();
-
-        $qb = $dm->createQueryBuilder('AvroBlogBundle:Tag');
-        $qb->sort('createdAt');
-        $qb->limit(10);
-        $tags = $qb->getQuery()->execute();
-
-
-        return array(
-            'posts' => $posts,
-            'tags' => $tags
-        );
+            'admin' => $this->isAdmin()
+        ));
     }
 
     /**
      * Delete onePost.
-     *
-     * @Route("/post/delete/{id}", name="avro_blog_post_delete")
      */
-    public function deleteAction($id)
+    public function deleteAction(Request $request, $id)
     {
-        $post = $this->get('doctrine.odm.mongodb.document_manager')
-            ->getRepository('AvroBlogBundle:Post')
-            ->find($id);
+        $postManager = $this->container->get('avro_blog.post_manager');
 
-        $post->setIsDeleted(true);
+        $post = $postManager->find($id);
 
-        $dm = $this->get('doctrine.odm.mongodb.document_manager');
-        $dm->persist($post);
-        $dm->flush();
+        $this->container->get('event_dispatcher')->dispatch('avro_blog.post.delete', new PostEvent($request, $post));
+
+        $postManager->delete($post);
+
+        $this->container->get('event_dispatcher')->dispatch('avro_blog.post.deleted', new PostEvent($request, $post));
 
         $this->container->get('session')->getFlashBag()->set('success', 'Post deleted.');
 
-        $uri = $this->get('request')->headers->get('referer');
-
-        return new RedirectResponse($uri);
-    }
-
-    /**
-     * Restore one Post.
-     *
-     * @Route("/post/restore/{id}", name="avro_blog_post_restore")
-     */
-    public function restoreAction($id)
-    {
-        $post = $this->get('doctrine.odm.mongodb.document_manager')
-            ->getRepository('AvroBlogBundle:Post')
-            ->find($id);
-
-        $post->setIsDeleted(false);
-        $post->setDeletedAt(null);
-
-        $dm = $this->get('doctrine.odm.mongodb.document_manager');
-        $dm->persist($post);
-        $dm->flush();
-
-        $this->container->get('session')->getFlashBag()->set('success', 'Post restored.');
-
-        $uri = $this->get('request')->headers->get('referer');
-
-        return new RedirectResponse($uri);
+        return new RedirectResponse($this->container->get('router')->generate('avro_blog_blog_index'));
     }
 
 
@@ -264,7 +174,7 @@ class PostController extends Controller
 
     public function isAdmin()
     {
-        $context = $this->get('security.context');
+        $context = $this->container->get('security.context');
 
         $user = $context->getToken()->getUser();
 
