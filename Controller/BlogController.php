@@ -2,22 +2,14 @@
 
 namespace Avro\BlogBundle\Controller;
 
-use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\DependencyInjection\ContainerAware;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Avro\BlogBundle\Document\Post;
-use Avro\ImageBundle\Document\Image;
-use Avro\RatingBundle\Document\Rating;
+
 use Avro\BlogBundle\Form\Type\PostFormType;
 
 /**
- * Post controller.
+ * Blog controller.
  *
  * @author Joris de Wit <joris.w.dewit@gmail.com>
  */
@@ -56,34 +48,4 @@ class BlogController extends ContainerAware
             'tags' => $tags
         );
     }
-
-    /**
-     * List Posts by tag.
-     *
-     * @Template()
-     */
-    public function tagAction($slug)
-    {
-        $paginator = $this->get('avro_paginator.paginator');
-        $dm = $this->get('doctrine.odm.mongodb.document_manager');
-
-        $paginator->setClass('AvroBlogBundle:Post');
-
-        $tag = false;
-        if ($slug) {
-            $tag = $dm->getRepository('AvroBlogBundle:Tag')->findOneBy(array('slug' => $slug));
-
-            $paginator->addConstraint('tags.id', $tag->getId());
-        }
-
-        $posts = $paginator->getResults();
-
-        return array(
-            'posts' => $posts,
-            'paginator' => $paginator,
-            'tag' => $tag
-        );
-    }
-
-
 }

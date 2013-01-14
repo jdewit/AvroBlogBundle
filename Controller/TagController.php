@@ -2,13 +2,9 @@
 
 namespace Avro\BlogBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\DependencyInjection\ContainerAware;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Avro\BlogBundle\Document\Tag;
+
 use Avro\BlogBundle\Form\Type\TagFormType;
 
 /**
@@ -23,159 +19,84 @@ class TagController extends ContainerAware
     /**
      * List Tags.
      *
-     * @Route("/", name="avro_blog_tag_list")
-     * @Template()
      */
     public function listAction()
     {
-        $paginator = $this->get('avro_paginator.paginator');
-        $paginator->setClass('AvroBlogBundle:Tag');
-        $tags = $paginator->getResults();
+        $tags = $this->container->get('avro_blog.tag_manager')->findAll();
 
-        return array(
-            'tags' => $tags,
-            'paginator' => $paginator,
-        );
-    }
-
-
-    /**
-     * @Route("/widget", name="avro_blog_tag_widget")
-     * @Template()
-     */
-    public function widgetAction()
-    {
-        $dm = $this->get('doctrine.odm.mongodb.document_manager');
-        $tags = $dm->getRepository('AvroBlogBundle:Tag')->findAll();
-
-        return array(
+        return $this->container->get('templating')->renderResponse('AvroBlogBundle:Tag:list.html.twig', array(
             'tags' => $tags
-        );
+        ));
     }
 
     /**
      * Create one Tag
-     *
-     * @Route("/new", name="avro_blog_tag_new")
-     * @Template()
-     *
      */
     public function newAction()
     {
-        $tag = new Tag();
-        $form = $this->createForm(new TagFormType(), $tag);
+        $tagManager = $this->container->get('avro_blog.tag_manager');
+        $tag = $tagManager->create();
 
-        if ($this->processForm($form, $tag)) {
-            $this->get('session')->getFlashBag()->set('success', 'Tag created.');
+        $form = $this->container->get('form.factory')->create(new TagFormType(), $post);
 
-            $uri = $this->get('request')->headers->get('referer');
+        if ('POST' == $request->getMethod()) {
+            $form->bind($request);
+            if ($form->isValid()) {
+                $tagManager->update($tag);
+                $this->get('session')->getFlashBag()->set('success', 'Tag created.');
 
-            return new RedirectResponse($uri);
+                return new RedirectResponse($this->container->get('router')->generate('avro_blog_tag_list'));
+            }
         }
 
-        return array(
+        return $this->container->get('templating')->renderResponse('AvroBlogBundle:Tag:new.html.twig', array(
             'form' => $form->createView()
-        );
+        ));
     }
 
     /**
      * Edit one Tag, show the edit form.
-     *
-     * @Route("/edit/{id}", name="avro_blog_tag_edit")
-     * @Template()
      */
     public function editAction($id)
     {
-        $tag = $this->get('doctrine.odm.mongodb.document_manager')
-            ->getRepository('AvroBlogBundle:Tag')
-            ->find($id);
+        $tagManager = $this->container->get('avro_blog.tag_manager');
+
+        $tag = $tagManager->find($id);
 
         if (!$tag) {
             throw $this->createNotFoundException('No tag found');
         }
 
-        $form = $this->createForm(new TagFormType(), $tag);
-        if ($this->processForm($form, $tag)) {
-            $this->get('session')->getFlashBag()->set('success', 'Tag updated.');
+        $form = $this->container->get('form.factory')->create(new TagFormType(), $post);
+        if ('POST' == $request->getMethod()) {
+            $form->bind($request);
+            if ($form->isValid()) {
+                $tagManager->update($tag);
+                $this->get('session')->getFlashBag()->set('success', 'Tag updated.');
 
-            return new RedirectResponse($this->generateUrl('avro_blog_tag_list'));
+                return new RedirectResponse($this->container->get('router')->generate('avro_blog_tag_list'));
+            }
         }
 
-        return array(
+
+        return $this->container->get('templating')->renderResponse('AvroBlogBundle:Tag:edit.html.twig', array(
             'form' => $form->createView(),
             'tag' => $tag
-        );
+        ));
     }
 
     /**
      * Delete oneTag.
-     *
-     * @Route("/delete/{id}", name="avro_blog_tag_delete")
      */
     public function deleteAction($id)
     {
-        $tag = $this->get('doctrine.odm.mongodb.document_manager')
-            ->getRepository('AvroBlogBundle:Tag')
-            ->find($id);
+        $tagManager = $this->container->get('avro_blog.tag_manager');
+        $tag = $tagManager->find($id);
 
-
-        $dm = $this->get('doctrine.odm.mongodb.document_manager');
-        $dm->remove($tag);
-        $dm->flush();
+        $tagManager->delete($tag);
 
         $this->container->get('session')->getFlashBag()->set('success', 'Tag deleted.');
 
-        $uri = $this->get('request')->headers->get('referer');
-
-        return new RedirectResponse($uri);
-    }
-
-    /**
-     * Restore one Tag.
-     *
-     * @Route("/restore/{id}", name="avro_blog_tag_restore")
-     */
-    public function restoreAction($id)
-    {
-        $tag = $this->get('doctrine.odm.mongodb.document_manager')
-            ->getRepository('AvroBlogBundle:Tag')
-            ->find($id);
-
-        $tag->setIsDeleted(false);
-        $tag->setDeletedAt(null);
-
-        $dm = $this->get('doctrine.odm.mongodb.document_manager');
-        $dm->persist($tag);
-        $dm->flush();
-
-        $this->container->get('session')->getFlashBag()->set('success', 'Tag restored.');
-
-        $uri = $this->get('request')->headers->get('referer');
-
-        return new RedirectResponse($uri);
-    }
-
-    /**
-     * Process Tag Form
-     */
-    public function processForm($form, $tag)
-    {
-        $request = $this->get('request');
-
-        if ($request->getMethod() == 'POST') {
-
-            $form->bind($request);
-
-            if (true === $form->isValid()) {
-                $dm = $this->get('doctrine.odm.mongodb.document_manager');
-
-                $dm->persist($tag);
-                $dm->flush();
-
-                return true;
-            }
-        }
-
-        return false;
+        return new RedirectResponse($this->container->get('router')->generate('avro_blog_tag_list'));
     }
 }
