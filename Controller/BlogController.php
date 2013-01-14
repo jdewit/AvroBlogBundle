@@ -36,14 +36,14 @@ class BlogController extends ContainerAware
     }
 
     /**
-     * @Template()
+     * side Widget
      */
     public function sideWidgetAction()
     {
         $posts = $this->container->get('avro_blog.post_manager')->findAll();
         $tags = $this->container->get('avro_blog.tag_manager')->findAll();
 
-        return array(
+        return $this->container->get('templating')->renderResponse('AvroBlogBundle:Blog:sideWidget.html.twig', array(
             'posts' => $posts,
             'tags' => $tags
         );
