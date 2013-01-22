@@ -10,8 +10,6 @@ use Avro\BlogBundle\Form\Type\TagFormType;
 /**
  * Tag controller.
  *
- * @Route("/tag")
- *
  * @author Joris de Wit <joris.w.dewit@gmail.com>
  */
 class TagController extends ContainerAware
